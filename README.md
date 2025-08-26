@@ -1,5 +1,4 @@
-# portfolio
-Personal portfolio website showcasing my projects, skills, and contact details.
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
