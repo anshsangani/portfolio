@@ -1,2 +1,311 @@
 # portfolio
 Personal portfolio website showcasing my projects, skills, and contact details.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Portfolio</title>
+  <meta name="description" content="Portfolio showcasing my projects, skills, and contact details." />
+  <style>
+    :root {
+      --bg: #0f172a;         /* slate-900 */
+      --card: #111827;       /* gray-900 */
+      --muted: #94a3b8;      /* slate-400 */
+      --text: #e5e7eb;       /* gray-200 */
+      --accent: #22d3ee;     /* cyan-400 */
+      --accent-2: #a78bfa;   /* violet-400 */
+      --ring: rgba(34, 211, 238, 0.4);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(167,139,250,0.12), transparent 60%),
+                  radial-gradient(1000px 700px at 10% 10%, rgba(34,211,238,0.10), transparent 60%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container { width: min(1100px, 92%); margin: 0 auto; }
+
+    /* Header */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.8rem 0;
+    }
+    .brand { font-weight: 700; letter-spacing: 0.5px; }
+    .brand span { color: var(--accent); }
+    nav ul { list-style: none; display: flex; gap: 1rem; padding: 0; margin: 0; }
+    nav a { padding: 0.5rem 0.75rem; border-radius: 999px; color: var(--muted); }
+    nav a:hover, nav a:focus { outline: none; background: rgba(34, 211, 238, 0.1); color: var(--text); }
+
+    /* Hero */
+    .hero { padding: 5rem 0 3rem; display: grid; gap: 2rem; align-items: center; }
+    .hero h1 { font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.15; margin: 0; }
+    .hero p { color: var(--muted); margin-top: 0.75rem; }
+    .cta { display: flex; gap: 0.8rem; margin-top: 1.25rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.7rem 1rem; border-radius: 12px; border: 1px solid rgba(148,163,184,0.25);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.00));
+      color: var(--text);
+    }
+    .btn.primary { border-color: transparent; background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #0b1022; font-weight: 600; }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 20px rgba(0,0,0,0.25); }
+
+    .hero-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid rgba(148,163,184,0.15);
+      border-radius: 20px; padding: 1.25rem; display: grid; grid-template-columns: 90px 1fr; gap: 1rem; align-items: center;
+    }
+    .avatar { width: 90px; height: 90px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(167,139,250,0.35); }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Sections */
+    section { padding: 3rem 0; }
+    .section-title { font-size: 1.6rem; margin: 0 0 1rem; }
+    .muted { color: var(--muted); }
+
+    /* About */
+    .about {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+      border: 1px solid rgba(148,163,184,0.15);
+      border-radius: 20px; padding: 1.5rem;
+    }
+
+    /* Skills */
+    .chips { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .chip { padding: 0.45rem 0.7rem; border-radius: 999px; border: 1px dashed rgba(148,163,184,0.35); color: var(--text); font-size: 0.95rem; }
+
+    /* Projects */
+    .grid { display: grid; gap: 1rem; }
+    @media (min-width: 720px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+    .card {
+      background: var(--card); border: 1px solid rgba(148,163,184,0.15); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(0,0,0,0.35); }
+    .card img { height: 160px; object-fit: cover; }
+    .card .content { padding: 1rem; }
+    .card .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+    .tag { font-size: 0.85rem; border: 1px solid rgba(148,163,184,0.25); border-radius: 999px; padding: 0.2rem 0.5rem; color: var(--muted); }
+
+    /* Resume */
+    .resume { display: grid; gap: 1rem; }
+    .resume-item { background: var(--card); border: 1px solid rgba(148,163,184,0.15); padding: 1rem; border-radius: 16px; }
+    .resume h4 { margin: 0 0 0.25rem; }
+
+    /* Contact */
+    form { display: grid; gap: 0.8rem; }
+    input, textarea {
+      width: 100%; padding: 0.8rem 0.9rem; border-radius: 12px; border: 1px solid rgba(148,163,184,0.35); background: rgba(2,6,23,0.4); color: var(--text);
+    }
+    input:focus, textarea:focus { outline: 2px solid var(--ring); border-color: transparent; }
+    textarea { min-height: 120px; resize: vertical; }
+
+    /* Footer */
+    footer { padding: 2rem 0 3rem; color: var(--muted); text-align: center; }
+    .socials { display: flex; gap: 0.8rem; justify-content: center; margin-top: 0.6rem; }
+    .socials a { border: 1px solid rgba(148,163,184,0.25); padding: 0.45rem 0.7rem; border-radius: 999px; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <div class="brand">&lt; <span>Ansh Sangani</span> /&gt;</div>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#resume">Resume</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main class="container">
+    <section class="hero" id="home">
+      <div class="hero-card">
+        <div class="avatar">
+          <!-- Replace with your photo -->
+          <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=400&auto=format&fit=crop" alt="Your profile photo" />
+        </div>
+        <div>
+          <h1>Hi, I'm <span style="color: var(--accent);">Ansh Sangani</span> — a Web Developer & AI Enthusiast</h1>
+          <p class="muted">I build clean, accessible web apps and love solving problems with code. Currently exploring DSA, DBMS, and modern web development.</p>
+          <div class="cta">
+            <a class="btn primary" href="#projects">See My Work</a>
+            <a class="btn" href="#contact">Contact Me</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <h2 class="section-title">About</h2>
+      <div class="about">
+        <p>
+          I'm an engineering student passionate about building fast, user-friendly websites and learning core CS concepts.
+          I enjoy turning ideas into real projects and continuously improving my craft.
+        </p>
+        <p class="muted">Beyond code: I like reading, music, and explaoring.</p>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+      <h2 class="section-title">Skills</h2>
+      <div class="chips">
+        <span class="chip">HTML5</span>
+        <span class="chip">CSS3</span>
+        <span class="chip">JavaScript</span>
+        <span class="chip">Responsive Design</span>
+        <span class="chip">Git & GitHub</span>
+        <span class="chip">C/C++</span>
+        <span class="chip">DSA</span>
+        <span class="chip">DBMS</span>
+        <span class="chip">SQL</span>
+        <span class="chip">Python (basics)</span>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <h2 class="section-title">Projects</h2>
+      <div class="grid">
+        <!-- Project 1 -->
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1522143049013-2519756a62b0?q=80&w=1200&auto=format&fit=crop" alt="Project screenshot" />
+          <div class="content">
+            <h3>Project Name One</h3>
+            <p class="muted">Short description of what this project does and why it's useful or interesting.</p>
+            <div class="tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JS</span>
+            </div>
+            <p>
+              <a class="btn" href="#" target="_blank" rel="noreferrer">Live Demo</a>
+              <a class="btn" href="#" target="_blank" rel="noreferrer">Source Code</a>
+            </p>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1529101091764-c3526daf38fe?q=80&w=1200&auto=format&fit=crop" alt="Project screenshot" />
+          <div class="content">
+            <h3>Project Name Two</h3>
+            <p class="muted">Brief overview of the features, tech stack, and what you learned.</p>
+            <div class="tags">
+              <span class="tag">API</span>
+              <span class="tag">JSON</span>
+              <span class="tag">Fetch</span>
+            </div>
+            <p>
+              <a class="btn" href="#" target="_blank" rel="noreferrer">Live Demo</a>
+              <a class="btn" href="#" target="_blank" rel="noreferrer">Source Code</a>
+            </p>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="Project screenshot" />
+          <div class="content">
+            <h3>Project Name Three</h3>
+            <p class="muted">Highlight the problem it solves, your role, and the outcome.</p>
+            <div class="tags">
+              <span class="tag">React</span>
+              <span class="tag">Vite</span>
+              <span class="tag">CSS</span>
+            </div>
+            <p>
+              <a class="btn" href="#" target="_blank" rel="noreferrer">Live Demo</a>
+              <a class="btn" href="#" target="_blank" rel="noreferrer">Source Code</a>
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+
+    <section id="resume">
+      <h2 class="section-title">Resume</h2>
+      <div class="resume">
+        <div class="resume-item">
+          <h4> Role — Company</h4>
+          <p class="muted">Month YYYY – Present • City, Country</p>
+          <ul>
+            <li>Key achievement or responsibility #1.</li>
+            <li>Key achievement or responsibility #2.</li>
+            <li>Key achievement or responsibility #3.</li>
+          </ul>
+        </div>
+        <div class="resume-item">
+          <h4>Bachelor of Engineering — LDRP INSTITUTE OF TECHNOLOGY AND RESEARCH</h4>
+          <p class="muted">2024-2028• Major / 7.16</p>
+        </div>
+        <p>
+          <a class="btn" href="#" download>Download Resume (PDF)</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <h2 class="section-title">Contact</h2>
+      <p class="muted">Want to collaborate or have a question? Send me a message:</p>
+      <form action="https://formspree.io/f/your-id" method="POST">
+        <label>
+          Name
+          <input type="text" name="name" placeholder="Your name" required />
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" placeholder="xyz@gmail.com" required />
+        </label>
+        <label>
+          Message
+          <textarea name="message" placeholder="Tell me about your project" required></textarea>
+        </label>
+        <button class="btn primary" type="submit">Send Message</button>
+      </form>
+      <div class="socials">
+        <a href="https://github.com/your-username" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/your-id" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href="mailto:anshsangani269@gmail.com">Email</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © <span id="year"></span> Your Name • Built with HTML & CSS
+    </div>
+  </footer>
+
+  <script>
+    // Update year automatically
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
